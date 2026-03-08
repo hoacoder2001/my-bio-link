@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio Links - Trang cá nhân của tôi</title>
+    <style>
+        /* CSS để làm đẹp trang web */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 20px;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #007bff;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin: 15px 0 5px;
+            color: #333;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* Phong cách cho các nút liên kết */
+        .link-card {
+            background-color: #ffffff;
+            color: #333;
+            text-decoration: none;
+            display: block;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .link-card:hover {
+            transform: translateY(-3px);
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* Màu sắc riêng cho từng mạng xã hội (tùy chọn) */
+        .github { border-left: 5px solid #333; }
+        .facebook { border-left: 5px solid #1877f2; }
+        .insta { border-left: 5px solid #e4405f; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="C:\Users\ADMIN\Pictures\Camera Roll\WIN_20251206_18_09_43_Pro.jpg" alt="Avatar" class="profile-img">
+        
+        <h1>Tên Của Bạn</h1>
+        <p>Chào mừng bạn đến với không gian cá nhân của tôi!</p>
+
+        <a href="https://github.com/ten-cua-ban" target="_blank" class="link-card github">GitHub</a>
+        <a href="https://facebook.com/ten-cua-ban" target="_blank" class="link-card facebook">Facebook</a>
+        <a href="https://instagram.com/ten-cua-ban" target="_blank" class="link-card insta">Instagram</a>
+    </div>
+
+</body>
+</html>
