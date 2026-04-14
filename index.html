@@ -401,5 +401,170 @@
             }());
         }
     </script>
+
+    <!-- Script Vẽ Hình Neon (Kẻ Đường Phát Sáng) -->
+    <script>
+        const canvas = document.createElement('canvas');
+        canvas.id = 'drawCanvas';
+        // Style canvas full màn hình, dưới thẻ Card, không chặn click
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100vw';
+        canvas.style.height = '100vh';
+        canvas.style.zIndex = '5'; 
+        canvas.style.pointerEvents = 'none'; 
+        document.body.appendChild(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let hue = 0;
+        let points = [];
+        let pathLength = 0;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Theo dõi chuột và lưu trữ đường đi (path)
+        window.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            points = [{x: e.clientX, y: e.clientY}];
+            pathLength = 0; // Reset length
+            ctx.beginPath();
+            ctx.moveTo(e.clientX, e.clientY);
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDrawing) return;
+            
+            // Cài đặt nét vẽ Neon
+            ctx.strokeStyle = `hsl(${hue}, 100%, 65%)`; // Chuyển màu liên tục
+            ctx.lineWidth = 6;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = `hsl(${hue}, 100%, 65%)`;
+            
+            ctx.lineTo(e.clientX, e.clientY);
+            ctx.stroke();
+            
+            // Tính khoảng cách giữa điểm trước và điểm hiện tại
+            let lastPoint = points[points.length - 1];
+            let dx = e.clientX - lastPoint.x;
+            let dy = e.clientY - lastPoint.y;
+            pathLength += Math.sqrt(dx*dx + dy*dy);
+            points.push({x: e.clientX, y: e.clientY});
+            
+            hue += 3; // Tốc độ đổi màu
+            if (hue >= 360) hue = 0;
+        });
+
+        // Hàm Nhận diện và Sửa hình học
+        function recognizeShape() {
+            if (!isDrawing) return;
+            isDrawing = false;
+            
+            if (points.length < 15) return; // Nét vẽ quá ngắn, bỏ qua
+            
+            // Tính toán khung giới hạn Bounding Box và các điểm cực hạn
+            let pMinX = points[0], pMaxX = points[0];
+            let pMinY = points[0], pMaxY = points[0];
+            
+            points.forEach(p => {
+                if (p.x < pMinX.x) pMinX = p;
+                if (p.x > pMaxX.x) pMaxX = p;
+                if (p.y < pMinY.y) pMinY = p;
+                if (p.y > pMaxY.y) pMaxY = p;
+            });
+
+            let W = pMaxX.x - pMinX.x;
+            let H = pMaxY.y - pMinY.y;
+            let boundingPerimeter = 2 * (W + H);
+            
+            if (W < 40 && H < 40) return; // Hình siêu nhỏ, bỏ qua
+
+            // Hàm tính toán Tam giác cực hạn
+            function getDist(p1, p2) { return Math.sqrt((p1.x-p2.x)**2 + (p1.y-p2.y)**2); }
+            function getTriPerim(p1, p2, p3) { return getDist(p1,p2) + getDist(p2,p3) + getDist(p3,p1); }
+
+            let t1 = getTriPerim(pMinX, pMaxX, pMinY);
+            let t2 = getTriPerim(pMinX, pMaxX, pMaxY);
+            let t3 = getTriPerim(pMinX, pMinY, pMaxY);
+            let t4 = getTriPerim(pMaxX, pMinY, pMaxY);
+            
+            let triArr = [
+                {perim: t1, pts: [pMinX, pMaxX, pMinY]},
+                {perim: t2, pts: [pMinX, pMaxX, pMaxY]},
+                {perim: t3, pts: [pMinX, pMinY, pMaxY]},
+                {perim: t4, pts: [pMaxX, pMinY, pMaxY]}
+            ];
+            // Lấy ra tam giác lớn nhất từ 4 điểm mút
+            triArr.sort((a, b) => b.perim - a.perim);
+            let bestTri = triArr[0];
+
+            let ratio = pathLength / boundingPerimeter;
+            let shape = null;
+            let drawData = null;
+            
+            // Xử lý nắn hình dựa trên tỷ lệ
+            if (pathLength / bestTri.perim > 0.85 && pathLength / bestTri.perim < 1.10 && W > 30 && H > 30) {
+                shape = 'triangle';
+                drawData = bestTri.pts;
+            } else if (ratio > 0.8 && ratio < 1.15 && W > 30 && H > 30) {
+                shape = 'rectangle';
+            } else if (ratio > 0.65 && ratio <= 0.8 && W > H * 0.5 && H > W * 0.5) {
+                shape = 'circle';
+            } else {
+                let diagonalLength = Math.sqrt(W*W + H*H);
+                let lineRatio = pathLength / diagonalLength;
+                if (lineRatio >= 0.9 && lineRatio <= 1.15) {
+                    shape = 'line';
+                }
+            }
+            
+            // Nếu nhận diện được, vẽ lại hình khối "chuẩn" chồng lên nét vẽ nháp
+            if (shape) {
+                ctx.beginPath();
+                ctx.strokeStyle = `hsl(${hue}, 100%, 80%)`; // Nét sau khi nhận diện sẽ sáng chói hơn
+                ctx.lineWidth = 10; // Đậm hơn
+                ctx.shadowBlur = 25;
+                ctx.shadowColor = `hsl(${hue}, 100%, 80%)`;
+
+                if (shape === 'triangle') {
+                    ctx.moveTo(drawData[0].x, drawData[0].y);
+                    ctx.lineTo(drawData[1].x, drawData[1].y);
+                    ctx.lineTo(drawData[2].x, drawData[2].y);
+                    ctx.closePath();
+                } else if (shape === 'rectangle') {
+                    ctx.rect(pMinX.x, pMinY.y, W, H);
+                } else if (shape === 'circle') {
+                    let r = (W + H) / 4;
+                    ctx.arc(pMinX.x + W/2, pMinY.y + H/2, r, 0, Math.PI * 2);
+                } else if (shape === 'line') {
+                    ctx.moveTo(points[0].x, points[0].y);
+                    ctx.lineTo(points[points.length-1].x, points[points.length-1].y);
+                }
+                
+                ctx.stroke();
+            }
+        }
+
+        window.addEventListener('mouseup', recognizeShape);
+        window.addEventListener('mouseleave', recognizeShape);
+        
+        // Hiệu ứng làm nét vẽ từ từ tan biến mờ ảo
+        function fadeOutLines() {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.04)'; // Tốc độ mờ
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.globalCompositeOperation = 'source-over';
+            requestAnimationFrame(fadeOutLines);
+        }
+        fadeOutLines();
+    </script>
 </body>
 </html>
