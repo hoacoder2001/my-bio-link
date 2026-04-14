@@ -4,117 +4,300 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bio Links - Trang cá nhân của tôi</title>
-
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
+    
     <style>
+        /* CSS reset & base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', sans-serif;
-            /* Ảnh nền IT kèm lớp phủ màu đen mờ (rgba) để làm nổi bật chữ */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("background-my-web.png");
-            background-size: cover; /* Ép ảnh vừa vặn với toàn bộ màn hình */
-            background-position: center; /* Căn giữa bức ảnh */
-            background-attachment: fixed; /* Giữ ảnh cố định khi cuộn chuột */
+            font-family: 'Outfit', sans-serif;
+            background-color: #0f172a; /* Dark sleek base */
+            background-image: url("background-my-web.png");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             background-repeat: no-repeat;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Overlay to darken background */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.85); /* dark overlay slightly thicker */
+            backdrop-filter: blur(10px); /* glass effect for the whole background */
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1;
+        }
+
+        /* Particles container */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 2;
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255, 255, 255, 0.03); /* Vipro Glassmorphism */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 45px 35px;
+            text-align: center;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6);
+            animation: fadeIn 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Avatar */
+        .avatar-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            padding: 4px;
+            /* Glowing ring with gradient */
+            background: linear-gradient(135deg, #00C3FF, #FF0076, #590FB7);
+            background-size: 200% 200%;
+            animation: glowGradient 4s ease infinite;
+            box-shadow: 0 0 30px rgba(0, 195, 255, 0.3), inset 0 0 20px rgba(255, 0, 118, 0.3);
+        }
+
+        @keyframes glowGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #111827;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .avatar-container:hover .profile-img {
+            transform: scale(1.05);
+        }
+
+        /* Text Area */
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .role {
+            font-size: 1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .about-me {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-weight: 300;
+            padding: 0 10px;
+        }
+
+        /* Social Grid (Square Icons) */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .social-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px 10px;
+            color: #f1f5f9;
+            text-decoration: none;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            padding: 50px 20px;
-            margin: 0;
-            color: white;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-
-        /* Tùy chỉnh ảnh đại diện */
-        .profile-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            margin-bottom: 15px;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-
-        p {
-            opacity: 0.9;
-            margin-bottom: 30px;
-        }
-
-        .link-card {
-            background-color: white;
-            color: #333;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 50px; /* Bo tròn kiểu viên thuốc */
-            font-weight: bold;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-            /* Thêm khoảng cách cho icon */
-            .link-card i {
-                margin-right: 10px;
-                font-size: 1.2rem;
-            }
-
-            .link-card:hover {
-                transform: scale(1.05);
-                background-color: #f0f0f0;
-            }
-
-        /* Màu sắc cho từng Icon */
-        .fa-github {
-            color: #333;
+        /* Subtle animated reflection/glare for glass cards */
+        .social-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; right: 0; bottom: 0;
+            width: 50%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: all 0.7s ease;
+            z-index: 1;
         }
 
-        .fa-facebook {
-            color: #1877f2;
+        .social-card:hover::after {
+            left: 200%;
         }
 
-        .fa-instagram {
-            color: #e4405f;
+        .social-card i {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            transition: transform 0.4s ease, color 0.4s ease;
+            position: relative;
+            z-index: 2;
         }
-        .fa-linkedin {
-            color: #0077b5;
+
+        .social-card span {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .social-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            background: rgba(255, 255, 255, 0.08); 
+        }
+        
+        .social-card:hover i {
+            transform: scale(1.15) translateY(-3px);
+        }
+
+        /* Brand Colors & Glows */
+        .github:hover i { color: #f0f6fc; filter: drop-shadow(0 0 10px rgba(240, 246, 252, 0.8)); }
+        .facebook:hover i { color: #1e70e6; filter: drop-shadow(0 0 10px rgba(30, 112, 230, 0.8)); }
+        .instagram:hover i { color: #e4405f; filter: drop-shadow(0 0 10px rgba(228, 64, 95, 0.8)); }
+        .linkedin:hover i { color: #0a66c2; filter: drop-shadow(0 0 10px rgba(10, 102, 194, 0.8)); }
+
+        @media (max-width: 400px) {
+            .container { padding: 30px 20px; }
+            h1 { font-size: 1.8rem; }
+            .social-card i { font-size: 2rem; }
+            .social-grid { gap: 12px; }
         }
     </style>
 </head>
 <body>
+    <div class="overlay"></div>
+    <div id="particles-js"></div>
 
     <div class="container">
-        <img src="avatar.jpg" alt="Avatar" class="profile-img">
+        <div class="avatar-container">
+            <img src="avatar.jpg" alt="Avatar" class="profile-img">
+        </div>
 
         <h1>Hoa Van Nguyen</h1>
-        <p>Bim Developer</p>
+        <p class="role">BIM Developer</p>
+        
+        <p class="about-me">
+            Xin chào! 👋 Mình là Hoa Van Nguyen. Đam mê lập trình và phát triển các công cụ tự động hóa trong lĩnh vực BIM. Mình luôn thích học hỏi công nghệ mới và tối ưu quy trình làm việc.
+        </p>
 
-        <a href="https://github.com/hoacoder2001" target="_blank" class="link-card">
-            <i class="fab fa-github"></i> GitHub
-        </a>
-        <a href="https://www.facebook.com/hoabien1409/" target="_blank" class="link-card">
-            <i class="fab fa-facebook"></i> Facebook
-        </a>
-        <a href="https://www.instagram.com/nguyenvanhoa_68/" target="_blank" class="link-card">
-            <i class="fab fa-instagram"></i> Instagram
-        </a>
-        <a href="https://www.linkedin.com/in/hoa-nguyen-van-250a602ab/" target="_blank" class="link-card">
-            <i class="fab fa-linkedin"></i> Linkedin
-        </a>
+        <div class="social-grid">
+            <a href="https://github.com/hoacoder2001" target="_blank" class="social-card github">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+            <a href="https://www.facebook.com/hoabien1409/" target="_blank" class="social-card facebook">
+                <i class="fab fa-facebook"></i>
+                <span>Facebook</span>
+            </a>
+            <a href="https://www.instagram.com/nguyenvanhoa_68/" target="_blank" class="social-card instagram">
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+            </a>
+            <a href="https://www.linkedin.com/in/hoa-nguyen-van-250a602ab/" target="_blank" class="social-card linkedin">
+                <i class="fab fa-linkedin"></i>
+                <span>LinkedIn</span>
+            </a>
+        </div>
     </div>
 
+    <!-- Particle JS Library & Config -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 70, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.4, "random": true },
+                "size": { "value": 2.5, "random": true },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 140,
+                    "color": "#ffffff",
+                    "opacity": 0.15,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1.5,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": { "enable": true, "mode": "grab" },
+                    "onclick": { "enable": true, "mode": "push" },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": { "distance": 180, "line_linked": { "opacity": 0.4 } },
+                    "push": { "particles_nb": 3 }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
 </body>
 </html>
