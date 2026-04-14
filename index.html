@@ -131,6 +131,25 @@
             text-transform: uppercase;
         }
         
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
         .about-me {
             font-size: 0.95rem;
             color: #94a3b8;
@@ -233,8 +252,13 @@
         <h1>Hoa Van Nguyen</h1>
         <p class="role">BIM Developer</p>
         
+        <div class="badges">
+            <span class="badge"><i class="fas fa-building"></i> Prima</span>
+            <span class="badge"><i class="fas fa-map-marker-alt"></i> Vietnam</span>
+        </div>
+        
         <p class="about-me">
-            Xin chào! 👋 Mình là Hoa Van Nguyen. Đam mê lập trình và phát triển các công cụ tự động hóa trong lĩnh vực BIM. Mình luôn thích học hỏi công nghệ mới và tối ưu quy trình làm việc.
+            Hello! 👋 I'm a passionate developer specializing in automation tools and BIM workflows. I love exploring new technologies and optimizing development processes.
         </p>
 
         <div class="social-grid">
