@@ -27,8 +27,10 @@
             color: #f8fafc;
             min-height: 100vh;
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
+            gap: 30px;
             padding: 40px 20px;
             position: relative;
             overflow-x: hidden;
@@ -42,45 +44,6 @@
             backdrop-filter: blur(10px); /* glass effect for the whole background */
             -webkit-backdrop-filter: blur(10px);
             z-index: 0;
-        }
-
-        /* Background Text Animation */
-        .scrolling-bg {
-            position: fixed;
-            top: 50%;
-            left: -50%; /* Tránh việc bị hở ở viền khi xoay */
-            width: 200vw; /* Rộng hơn màn hình để khi xoay vẫn đủ dài */
-            transform: translateY(-50%) rotate(-12deg);
-            z-index: 1; /* Nằm trên overlay, dưới particles */
-            pointer-events: none;
-            overflow: hidden;
-            display: flex;
-            opacity: 0.3; /* Tăng độ sáng lên một chút để thấy màu sắc */
-        }
-
-        .scrolling-text {
-            white-space: nowrap;
-            font-size: 4.5rem; /* Đã thu nhỏ font chữ */
-            font-weight: 800;
-            text-transform: uppercase;
-            /* Thêm màu sắc Gradient cầu vồng Neon */
-            background: linear-gradient(90deg, #ff007f, #8b5cf6, #00d4ff, #ff007f);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
-            animation: scrollText 40s linear infinite, gradientFlow 8s linear infinite;
-            display: inline-block;
-        }
-
-        @keyframes gradientFlow {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
-        }
-
-        @keyframes scrollText {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } 
         }
 
         /* Particles container */
@@ -278,18 +241,464 @@
             .social-card i { font-size: 2rem; }
             .social-grid { gap: 12px; }
         }
+
+        /* BIM 3D Playground Styles */
+        .playground-container {
+            max-width: 480px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .playground-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #00d4ff, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .playground-desc {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            border-radius: 18px;
+            overflow: hidden;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .canvas-container canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .playground-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .btn-reset {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            color: #fca5a5;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-reset:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.45);
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+        }
+
+        .interaction-mode-indicator {
+            font-size: 0.75rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* BIM Stats Dashboard */
+        .bim-dashboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #f8fafc;
+            margin-top: 2px;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+        
+        .stat-value span {
+            color: #00d4ff;
+        }
+        
+        .stat-unit {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 400;
+        }
+
+        /* Top Left Display Mode Selector */
+        .view-controls-left {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .view-controls-left * {
+            pointer-events: auto;
+        }
+
+        .view-select-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .view-select-wrapper select {
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            padding: 6px 30px 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            outline: none;
+        }
+
+        .view-select-wrapper select option {
+            background-color: #0f172a;
+            color: #ffffff;
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+
+        .view-select-wrapper select:hover {
+            background: #1e293b;
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.45);
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+        }
+
+        .view-select-wrapper select:focus {
+            border-color: #06b6d4;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+        }
+
+        .view-select-wrapper .select-arrow {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #cbd5e1;
+            font-size: 0.75rem;
+            pointer-events: none;
+        }
+
+        /* Revit-style View Cube widget */
+        .view-cube-widget {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+            pointer-events: none;
+        }
+
+        .view-cube-widget * {
+            pointer-events: auto;
+        }
+
+        .btn-home-cube {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #cbd5e1;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-home-cube:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.35);
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+        }
+
+        .view-cube-container {
+            width: 70px;
+            height: 70px;
+            perspective: 350px;
+            margin-right: 2px;
+        }
+
+        .view-cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-30deg) rotateY(45deg);
+            transition: transform 0.1s ease-out;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            color: #cbd5e1;
+            font-size: 8px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            transition: all 0.25s ease;
+            box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.03);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cube-face:hover {
+            background: rgba(6, 182, 212, 0.35); /* Glow Cyan */
+            border-color: rgba(6, 182, 212, 0.75);
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(6, 182, 212, 0.8);
+            box-shadow: inset 0 0 15px rgba(6, 182, 212, 0.25), 0 0 10px rgba(6, 182, 212, 0.2);
+            cursor: pointer;
+        }
+
+        /* 3D face positions for 70px cube (translateZ = 35px) */
+        .cube-face.front  { transform: rotateY(  0deg) translateZ(35px); }
+        .cube-face.back   { transform: rotateY(180deg) translateZ(35px); }
+        .cube-face.left   { transform: rotateY(-90deg) translateZ(35px); }
+        .cube-face.right  { transform: rotateY( 90deg) translateZ(35px); }
+        .cube-face.top    { transform: rotateX( 90deg) translateZ(35px); }
+        .cube-face.bottom { transform: rotateX(-90deg) translateZ(35px); }
+        /* Grid Config Panel & Auto-Rotate styles */
+        .grid-config-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 10px 15px;
+            gap: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .config-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #cbd5e1;
+        }
+
+        .config-item select {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .config-item select:focus {
+            border-color: #06b6d4;
+            box-shadow: 0 0 8px rgba(6, 182, 212, 0.4);
+        }
+
+        .config-item input[type="range"] {
+            -webkit-appearance: none;
+            width: 80px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .config-item input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #06b6d4;
+            box-shadow: 0 0 5px rgba(6, 182, 212, 0.8);
+            transition: transform 0.2s ease;
+        }
+
+        .config-item input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.25);
+        }
+
+        #label-grid-spacing {
+            font-weight: 600;
+            color: #06b6d4;
+            min-width: 35px;
+            display: inline-block;
+            text-align: right;
+        }
+
+        .btn-rotate {
+            background: rgba(6, 182, 212, 0.05);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            color: #06b6d4;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-rotate:hover {
+            background: rgba(6, 182, 212, 0.15);
+            border-color: rgba(6, 182, 212, 0.45);
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+        }
+
+        /* Profile Skills Section */
+        .skills-section {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .skills-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: flex-start;
+        }
+
+        .skill-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: default;
+            user-select: none;
+        }
+
+        .skill-tag:hover {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: rgba(6, 182, 212, 0.45);
+            color: #00d4ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(6, 182, 212, 0.2);
+        }
+
+        @media (min-width: 1024px) {
+            body {
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                padding: 40px 30px;
+            }
+            .container {
+                flex-shrink: 0;
+            }
+            .playground-container {
+                max-width: none;
+                flex: 1;
+            }
+            .canvas-container {
+                height: 580px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="overlay"></div>
     
-    <div class="scrolling-bg">
-        <div class="scrolling-text">
-            Tôi yêu phụ nữ ✦ Tôi yêu phụ nữ ✦ Tôi yêu phụ nữ ✦ Tôi yêu phụ nữ ✦ Tôi yêu phụ nữ ✦ Tôi yêu phụ nữ ✦ Tôi yêu phụ nữ ✦ Tôi yêu phụ nữ ✦ 
-            Tôi yêu phụ nữ ✦ Tôi yêu phụ nữ ✦ Tôi yêu phụ nữ ✦ Tôi yêu phụ nữ ✦ Tôi yêu phụ nữ ✦ Tôi yêu phụ nữ ✦ Tôi yêu phụ nữ ✦ Tôi yêu phụ nữ ✦ 
-        </div>
-    </div>
-
     <div id="particles-js"></div>
 
     <div class="container">
@@ -301,13 +710,23 @@
         <p class="role">BIM Developer</p>
         
         <div class="badges">
-            <span class="badge"><i class="fas fa-building"></i> Prima</span>
-            <span class="badge"><i class="fas fa-map-marker-alt"></i> Vietnam</span>
+            <span class="badge"><i class="fas fa-building"></i> Formax Technologies</span>
+            <span class="badge"><i class="fas fa-map-marker-alt"></i> Ha Noi</span>
         </div>
         
         <p class="about-me">
             Hello! 👋 I'm a passionate developer specializing in automation tools and BIM workflows. I love exploring new technologies and optimizing development processes.
         </p>
+
+        <!-- Dynamic Skills Badges -->
+        <div class="skills-section">
+            <p class="skills-title"><i class="fas fa-laptop-code"></i> Kỹ năng chuyên môn</p>
+            <div class="skills-grid">
+                <span class="skill-tag"><i class="fab fa-microsoft"></i> C# .NET</span>
+                <span class="skill-tag"><i class="fas fa-cubes"></i> Revit API</span>
+                <span class="skill-tag"><i class="fas fa-drafting-compass"></i> AutoCAD API</span>
+            </div>
+        </div>
 
         <div class="social-grid">
             <a href="https://github.com/hoacoder2001" target="_blank" class="social-card github">
@@ -326,6 +745,92 @@
                 <i class="fab fa-linkedin"></i>
                 <span>LinkedIn</span>
             </a>
+        </div>
+    </div>
+
+    <!-- BIM 3D Playground Card -->
+    <div class="container playground-container">
+        <h2 class="playground-title"><i class="fas fa-cubes"></i> BIM 3D Playground</h2>
+        <p class="playground-desc">
+            Click vào các chấm tròn trên lưới để dựng cột. Dầm ngang sẽ tự động sinh ra kết nối các cột liền kề! Kéo chuột để xoay và phóng to mô hình 3D.
+        </p>
+
+        <div class="grid-config-panel">
+            <div class="config-item">
+                <label for="input-grid-size"><i class="fas fa-th"></i> Lưới:</label>
+                <select id="input-grid-size" onchange="updateGridConfig()">
+                    <option value="3">3 x 3</option>
+                    <option value="4" selected>4 x 4</option>
+                    <option value="5">5 x 5</option>
+                    <option value="6">6 x 6</option>
+                    <option value="7">7 x 7</option>
+                    <option value="8">8 x 8</option>
+                </select>
+            </div>
+            <div class="config-item">
+                <label for="input-grid-spacing"><i class="fas fa-arrows-alt-h"></i> Khoảng cách:</label>
+                <input type="range" id="input-grid-spacing" min="1.0" max="3.0" step="0.2" value="1.5" oninput="updateGridSpacingLabel(this.value)" onchange="updateGridConfig()">
+                <span id="label-grid-spacing">1.5m</span>
+            </div>
+        </div>
+
+        <div class="canvas-container" id="canvasContainer">
+            <!-- Compact View Controls - Top Left -->
+            <div class="view-controls-left">
+                <div class="view-select-wrapper">
+                    <select id="select-visual-mode" onchange="setVisualMode(this.value)">
+                        <option value="standard" selected>Mô hình Bê tông</option>
+                        <option value="rebar">Cấu trúc Cốt thép</option>
+                        <option value="xray">Chế độ X-Ray</option>
+                        <option value="stress">Biểu đồ Lực (Moment)</option>
+                    </select>
+                    <i class="fas fa-chevron-down select-arrow"></i>
+                </div>
+            </div>
+
+            <!-- Revit View Cube - Top Right -->
+            <div class="view-cube-widget">
+                <button class="btn-home-cube" title="Góc nhìn 3D mặc định" onclick="setCameraPreset('iso')">
+                    <i class="fas fa-home"></i>
+                </button>
+                <div class="view-cube-container">
+                    <div class="view-cube" id="viewCube">
+                        <div class="cube-face front" onclick="setCameraPreset('front')">Trước</div>
+                        <div class="cube-face back" onclick="setCameraPreset('back')">Sau</div>
+                        <div class="cube-face left" onclick="setCameraPreset('left')">Trái</div>
+                        <div class="cube-face right" onclick="setCameraPreset('right')">Phải</div>
+                        <div class="cube-face top" onclick="setCameraPreset('top')">Trên</div>
+                        <div class="cube-face bottom" onclick="setCameraPreset('bottom')">Dưới</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="playground-controls">
+            <button class="btn-reset" onclick="resetBIMPlayground()">
+                <i class="fas fa-trash-alt"></i> Xóa Hết
+            </button>
+            <button class="btn-rotate active-rotate" id="btn-toggle-rotate" onclick="toggleAutoRotate()">
+                <i class="fas fa-sync fa-spin"></i> Tự Xoay: BẬT
+            </button>
+            <div class="interaction-mode-indicator" id="rotate-indicator">
+                <i class="fas fa-sync-alt fa-spin"></i> Kéo để xoay 3D
+            </div>
+        </div>
+
+        <div class="bim-dashboard">
+            <div class="stat-item">
+                <span class="stat-label">Cột (Columns)</span>
+                <span class="stat-value"><span id="bim-columns">0</span> <span class="stat-unit">cột</span></span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Dầm (Beams)</span>
+                <span class="stat-value"><span id="bim-beams">0</span> <span class="stat-unit">dầm</span></span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Sàn (Slabs)</span>
+                <span class="stat-value"><span id="bim-slabs">0</span> <span class="stat-unit">sàn</span></span>
+            </div>
         </div>
     </div>
 
@@ -565,6 +1070,1092 @@
             requestAnimationFrame(fadeOutLines);
         }
         fadeOutLines();
+    </script>
+
+    <!-- Three.js & OrbitControls for BIM Playground -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script>
+        let scene, camera, renderer, controls;
+        let modelGroup;
+        let gridHelper;
+        let gridNodes = [];
+        let columnsState = []; // 4x4 array
+        let beamsList = []; // Array of beams
+        let slabsList = []; // Array of slabs
+        
+        let showRebars = false;
+        let showStress = false;
+        let showXRay = false;
+        let autoRotate = true;
+        let targetModelRotationY = 0;
+        
+        let isAnimatingCamera = false;
+        const targetCameraPos = new THREE.Vector3();
+        const targetControlsTarget = new THREE.Vector3();
+        
+        let GRID_SIZE = 4;
+        let GRID_SPACING = 1.5;
+        const COLUMN_HEIGHT = 2.5;
+        const COLUMN_SIZE = 0.25;
+        const BEAM_WIDTH = 0.20;
+        const BEAM_HEIGHT = 0.30;
+        
+        let containerEl, canvasWidth, canvasHeight;
+        let raycaster = new THREE.Raycaster();
+        let mouse = new THREE.Vector2();
+        let isMouseDown = false;
+        let mouseDownPosition = { x: 0, y: 0 };
+        
+        // Coordinated Color Scheme (Glassmorphism + Neon theme)
+        const colMaterial = new THREE.MeshStandardMaterial({
+            color: 0x06b6d4, // Neon Cyan
+            emissive: 0x012a32,
+            roughness: 0.15,
+            metalness: 0.9,
+            transparent: true,
+            opacity: 0.85
+        });
+        
+        const beamMaterial = new THREE.MeshStandardMaterial({
+            color: 0xec4899, // Neon Pink
+            emissive: 0x30081c,
+            roughness: 0.15,
+            metalness: 0.9,
+            transparent: true,
+            opacity: 0.85
+        });
+        
+        const rebarMaterial = new THREE.MeshStandardMaterial({
+            color: 0xf59e0b, // Gold/Orange Rebar
+            emissive: 0x3a2202,
+            roughness: 0.2,
+            metalness: 0.8
+        });
+        
+        let slabGeometry = new THREE.BoxGeometry(GRID_SPACING - 0.05, 0.08, GRID_SPACING - 0.05);
+        const slabMaterial = new THREE.MeshStandardMaterial({
+            color: 0x8b5cf6, // Purple Glass Slab
+            emissive: 0x1d0532,
+            roughness: 0.2,
+            metalness: 0.9,
+            transparent: true,
+            opacity: 0.6
+        });
+        
+        const inactiveNodeMaterial = new THREE.MeshBasicMaterial({
+            color: 0x475569, // Slate
+            transparent: true,
+            opacity: 0.6
+        });
+        
+        const activeNodeMaterial = new THREE.MeshBasicMaterial({
+            color: 0x8b5cf6, // Purple
+            transparent: true,
+            opacity: 0.9
+        });
+        
+        const hoverNodeMaterial = new THREE.MeshBasicMaterial({
+            color: 0x00d4ff, // High light Cyan
+            transparent: true,
+            opacity: 1.0
+        });
+
+        // Stress materials for columns (0 to 4 connected members)
+        const colStressMats = [
+            new THREE.MeshStandardMaterial({ color: 0x06b6d4, emissive: 0x012a32, roughness: 0.15, metalness: 0.9, transparent: true, opacity: 0.85 }), // Cyan (0)
+            new THREE.MeshStandardMaterial({ color: 0x10b981, emissive: 0x023020, roughness: 0.15, metalness: 0.9, transparent: true, opacity: 0.85 }), // Green (1)
+            new THREE.MeshStandardMaterial({ color: 0xf59e0b, emissive: 0x3a2202, roughness: 0.15, metalness: 0.9, transparent: true, opacity: 0.85 }), // Yellow (2)
+            new THREE.MeshStandardMaterial({ color: 0xf97316, emissive: 0x3d1b02, roughness: 0.15, metalness: 0.9, transparent: true, opacity: 0.85 }), // Orange (3)
+            new THREE.MeshStandardMaterial({ color: 0xef4444, emissive: 0x3a0202, roughness: 0.15, metalness: 0.9, transparent: true, opacity: 0.85 })  // Red (4)
+        ];
+        
+        // Stress materials for beams (0 to 3 load levels)
+        const beamStressMats = [
+            new THREE.MeshStandardMaterial({ color: 0x10b981, emissive: 0x023020, roughness: 0.15, metalness: 0.9, transparent: true, opacity: 0.85 }), // Green (Low)
+            new THREE.MeshStandardMaterial({ color: 0xf59e0b, emissive: 0x3a2202, roughness: 0.15, metalness: 0.9, transparent: true, opacity: 0.85 }), // Yellow (Medium)
+            new THREE.MeshStandardMaterial({ color: 0xf97316, emissive: 0x3d1b02, roughness: 0.15, metalness: 0.9, transparent: true, opacity: 0.85 }), // Orange (High)
+            new THREE.MeshStandardMaterial({ color: 0xef4444, emissive: 0x3a0202, roughness: 0.15, metalness: 0.9, transparent: true, opacity: 0.85 })  // Red (Very High)
+        ];
+
+        function initBIMPlayground() {
+            containerEl = document.getElementById('canvasContainer');
+            if (!containerEl) return;
+            
+            canvasWidth = containerEl.clientWidth;
+            canvasHeight = containerEl.clientHeight;
+            
+            // Scene
+            scene = new THREE.Scene();
+            
+            // Model Group (for rotation)
+            modelGroup = new THREE.Group();
+            scene.add(modelGroup);
+            
+            // Camera
+            camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 0.1, 100);
+            camera.position.set(5.5, 6, 7.5);
+            
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(canvasWidth, canvasHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            containerEl.appendChild(renderer.domElement);
+            
+            // Controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.08;
+            controls.maxPolarAngle = Math.PI - 0.01; // Allow bottom view inspection
+            controls.minDistance = 4;
+            controls.maxDistance = 45;
+            controls.target.set(0, 0.8, 0);
+            
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+            scene.add(ambientLight);
+            
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            dirLight.position.set(5, 10, 7.5);
+            scene.add(dirLight);
+            
+            const pointLight = new THREE.PointLight(0x8b5cf6, 2, 12);
+            pointLight.position.set(0, 3, 0);
+            scene.add(pointLight);
+            
+            // Architectural Grid Helper
+            gridHelper = new THREE.GridHelper(GRID_SPACING * (GRID_SIZE - 1), GRID_SIZE - 1, 0x475569, 0x334155);
+            modelGroup.add(gridHelper);
+            
+            // Setup columns array
+            for (let i = 0; i < GRID_SIZE; i++) {
+                columnsState[i] = [];
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    columnsState[i][j] = null;
+                }
+            }
+            
+            // Create interactive grid nodes
+            createGridNodes();
+            
+            // Register interaction handlers
+            renderer.domElement.addEventListener('pointerdown', onPointerDown);
+            renderer.domElement.addEventListener('pointerup', onPointerUp);
+            renderer.domElement.addEventListener('pointermove', onPointerMove);
+            window.addEventListener('resize', onWindowResize);
+            
+            animate();
+        }
+        
+        function createGridNodes() {
+            const nodeGeom = new THREE.SphereGeometry(0.12, 16, 16);
+            const halfGrid = (GRID_SIZE - 1) * GRID_SPACING / 2;
+            
+            for (let i = 0; i < GRID_SIZE; i++) {
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    const nodeMesh = new THREE.Mesh(nodeGeom, inactiveNodeMaterial.clone());
+                    const x = i * GRID_SPACING - halfGrid;
+                    const z = j * GRID_SPACING - halfGrid;
+                    
+                    nodeMesh.position.set(x, 0, z);
+                    nodeMesh.userData = { gridX: i, gridZ: j };
+                    
+                    modelGroup.add(nodeMesh);
+                    gridNodes.push(nodeMesh);
+                }
+            }
+        }
+        
+        function onPointerDown(e) {
+            isMouseDown = true;
+            mouseDownPosition.x = e.clientX;
+            mouseDownPosition.y = e.clientY;
+        }
+        
+        function onPointerUp(e) {
+            if (!isMouseDown) return;
+            isMouseDown = false;
+            
+            // Ignore click if mouse moved (meaning it was rotating the camera)
+            const moveThreshold = 6;
+            const dist = Math.sqrt(Math.pow(e.clientX - mouseDownPosition.x, 2) + Math.pow(e.clientY - mouseDownPosition.y, 2));
+            if (dist > moveThreshold) return;
+            
+            const rect = renderer.domElement.getBoundingClientRect();
+            mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+            
+            raycaster.setFromCamera(mouse, camera);
+            
+            // Raycast nodes in modelGroup coordinates
+            const intersects = raycaster.intersectObjects(gridNodes);
+            
+            if (intersects.length > 0) {
+                const node = intersects[0].object;
+                const gx = node.userData.gridX;
+                const gz = node.userData.gridZ;
+                toggleColumn(gx, gz, node);
+            }
+        }
+        
+        function onPointerMove(e) {
+            const rect = renderer.domElement.getBoundingClientRect();
+            mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+            
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(gridNodes);
+            
+            // Reset styles
+            gridNodes.forEach(node => {
+                const gx = node.userData.gridX;
+                const gz = node.userData.gridZ;
+                const hasCol = columnsState[gx][gz] !== null;
+                node.material = hasCol ? activeNodeMaterial : inactiveNodeMaterial;
+                node.scale.set(1, 1, 1);
+            });
+            
+            if (intersects.length > 0) {
+                const node = intersects[0].object;
+                node.material = hoverNodeMaterial;
+                node.scale.set(1.4, 1.4, 1.4);
+                containerEl.style.cursor = 'pointer';
+            } else {
+                containerEl.style.cursor = 'default';
+            }
+        }
+        
+        function createColumnRebar(nodeMesh) {
+            const rebarGroup = new THREE.Group();
+            
+            // 4 vertical main bars
+            const barGeom = new THREE.BoxGeometry(0.015, COLUMN_HEIGHT, 0.015);
+            barGeom.translate(0, COLUMN_HEIGHT / 2, 0); // Align pivot to bottom
+            
+            const offsets = [-0.075, 0.075];
+            for (let ox of offsets) {
+                for (let oz of offsets) {
+                    const barMesh = new THREE.Mesh(barGeom, rebarMaterial);
+                    barMesh.position.set(ox, 0, oz);
+                    rebarGroup.add(barMesh);
+                }
+            }
+            
+            // 8 hollow stirrups (built from 4 thin border boxes each)
+            const stirrupSpacing = (COLUMN_HEIGHT - 0.4) / 7;
+            const sideNSGeom = new THREE.BoxGeometry(0.18, 0.015, 0.012); // North/South sides
+            const sideEWGeom = new THREE.BoxGeometry(0.012, 0.015, 0.156); // East/West sides
+            
+            for (let k = 0; k < 8; k++) {
+                const y = 0.2 + k * stirrupSpacing;
+                
+                const n = new THREE.Mesh(sideNSGeom, rebarMaterial);
+                n.position.set(0, y, 0.084);
+                const s = new THREE.Mesh(sideNSGeom, rebarMaterial);
+                s.position.set(0, y, -0.084);
+                const e = new THREE.Mesh(sideEWGeom, rebarMaterial);
+                e.position.set(0.084, y, 0);
+                const w = new THREE.Mesh(sideEWGeom, rebarMaterial);
+                w.position.set(-0.084, y, 0);
+                
+                rebarGroup.add(n, s, e, w);
+            }
+            
+            rebarGroup.position.set(nodeMesh.position.x, 0, nodeMesh.position.z);
+            rebarGroup.scale.set(1, 0.01, 1);
+            rebarGroup.visible = showRebars;
+            
+            modelGroup.add(rebarGroup);
+            return rebarGroup;
+        }
+        
+        function createBeamRebar(posAX, posAZ, posBX, posBZ, direction) {
+            const rebarGroup = new THREE.Group();
+            const midX = (posAX + posBX) / 2;
+            const midZ = (posAZ + posBZ) / 2;
+            
+            rebarGroup.position.set(midX, COLUMN_HEIGHT - BEAM_HEIGHT / 2, midZ);
+            
+            const L = direction === 'X' ? Math.abs(posBX - posAX) : Math.abs(posBZ - posAZ);
+            const numSpaces = Math.max(2, Math.round((L - 0.2) / 0.25));
+            const stirrupSpacing = (L - 0.2) / numSpaces;
+            const stirrupCount = numSpaces + 1;
+            
+            if (direction === 'X') {
+                // 4 longitudinal bars running along X axis
+                const barGeom = new THREE.BoxGeometry(L, 0.012, 0.012);
+                const yOffsets = [-0.09, 0.09];
+                const zOffsets = [-0.06, 0.06];
+                for (let oy of yOffsets) {
+                    for (let oz of zOffsets) {
+                        const barMesh = new THREE.Mesh(barGeom, rebarMaterial);
+                        barMesh.position.set(0, oy, oz);
+                        rebarGroup.add(barMesh);
+                    }
+                }
+                
+                // Vertical stirrup loops (Y-Z plane)
+                const topBottomGeom = new THREE.BoxGeometry(0.015, 0.012, 0.14);
+                const leftRightGeom = new THREE.BoxGeometry(0.015, 0.196, 0.012);
+                
+                for (let k = 0; k < stirrupCount; k++) {
+                    const x = -L / 2 + 0.1 + k * stirrupSpacing;
+                    
+                    const top = new THREE.Mesh(topBottomGeom, rebarMaterial);
+                    top.position.set(x, 0.104, 0);
+                    const bot = new THREE.Mesh(topBottomGeom, rebarMaterial);
+                    bot.position.set(x, -0.104, 0);
+                    const left = new THREE.Mesh(leftRightGeom, rebarMaterial);
+                    left.position.set(x, 0, 0.064);
+                    const right = new THREE.Mesh(leftRightGeom, rebarMaterial);
+                    right.position.set(x, 0, -0.064);
+                    
+                    rebarGroup.add(top, bot, left, right);
+                }
+                
+                rebarGroup.scale.set(0.01, 1, 0.01);
+            } else {
+                // Z direction
+                // 4 longitudinal bars running Z axis
+                const barGeom = new THREE.BoxGeometry(0.012, 0.012, L);
+                const yOffsets = [-0.09, 0.09];
+                const xOffsets = [-0.06, 0.06];
+                for (let oy of yOffsets) {
+                    for (let ox of xOffsets) {
+                        const barMesh = new THREE.Mesh(barGeom, rebarMaterial);
+                        barMesh.position.set(ox, oy, 0);
+                        rebarGroup.add(barMesh);
+                    }
+                }
+                
+                // Stirrup loops (X-Y plane)
+                const topBottomGeom = new THREE.BoxGeometry(0.14, 0.012, 0.015);
+                const leftRightGeom = new THREE.BoxGeometry(0.012, 0.196, 0.015);
+                
+                for (let k = 0; k < stirrupCount; k++) {
+                    const z = -L / 2 + 0.1 + k * stirrupSpacing;
+                    
+                    const top = new THREE.Mesh(topBottomGeom, rebarMaterial);
+                    top.position.set(0, 0.104, z);
+                    const bot = new THREE.Mesh(topBottomGeom, rebarMaterial);
+                    bot.position.set(0, -0.104, z);
+                    const left = new THREE.Mesh(leftRightGeom, rebarMaterial);
+                    left.position.set(0.064, 0, z);
+                    const right = new THREE.Mesh(leftRightGeom, rebarMaterial);
+                    right.position.set(-0.064, 0, z);
+                    
+                    rebarGroup.add(top, bot, left, right);
+                }
+                
+                rebarGroup.scale.set(1, 1, 0.01);
+            }
+            
+            rebarGroup.visible = showRebars;
+            modelGroup.add(rebarGroup);
+            return rebarGroup;
+        }
+
+        // Draw parabolic moment diagram under beams
+        function createBeamStressDiagram(midX, midZ, direction, L) {
+            const diagramGroup = new THREE.Group();
+            const lineMat = new THREE.LineBasicMaterial({ color: 0xff3366, linewidth: 2 });
+            
+            const curvePoints = [];
+            const hatchPoints = [];
+            const maxDeflection = 0.25 * L; // scale deflection with length
+            
+            for (let k = 0; k <= 8; k++) {
+                const t = k / 8;
+                const posCoord = -L/2 + t * L;
+                const dy = 4 * t * (1 - t) * maxDeflection;
+                
+                if (direction === 'X') {
+                    // Curve path
+                    curvePoints.push(new THREE.Vector3(posCoord, -dy - BEAM_HEIGHT/2, 0));
+                    // Hatch lines connecting beam bottom center to moment curve
+                    hatchPoints.push(new THREE.Vector3(posCoord, -BEAM_HEIGHT/2, 0));
+                    hatchPoints.push(new THREE.Vector3(posCoord, -dy - BEAM_HEIGHT/2, 0));
+                } else {
+                    // Z aligned
+                    curvePoints.push(new THREE.Vector3(0, -dy - BEAM_HEIGHT/2, posCoord));
+                    hatchPoints.push(new THREE.Vector3(0, -BEAM_HEIGHT/2, posCoord));
+                    hatchPoints.push(new THREE.Vector3(0, -dy - BEAM_HEIGHT/2, posCoord));
+                }
+            }
+            
+            // Main moment line
+            const curveGeom = new THREE.BufferGeometry().setFromPoints(curvePoints);
+            const curveLine = new THREE.Line(curveGeom, lineMat);
+            diagramGroup.add(curveLine);
+            
+            // Perpendicular hatch dividers
+            const hatchGeom = new THREE.BufferGeometry().setFromPoints(hatchPoints);
+            const hatchLines = new THREE.LineSegments(hatchGeom, lineMat);
+            diagramGroup.add(hatchLines);
+            
+            diagramGroup.visible = showStress;
+            return diagramGroup;
+        }
+
+        function toggleColumn(gx, gz, nodeMesh) {
+            const hasCol = columnsState[gx][gz] !== null;
+            
+            if (!hasCol) {
+                // Instantiate Column
+                const colGeom = new THREE.BoxGeometry(COLUMN_SIZE, COLUMN_HEIGHT, COLUMN_SIZE);
+                colGeom.translate(0, COLUMN_HEIGHT / 2, 0); // Move origin to bottom face
+                
+                const colMesh = new THREE.Mesh(colGeom, colMaterial);
+                colMesh.position.set(nodeMesh.position.x, 0, nodeMesh.position.z);
+                colMesh.scale.set(1, 0.01, 1); // Start flat
+                
+                modelGroup.add(colMesh);
+                
+                // Create rebar group inside column
+                const rebarGroup = createColumnRebar(nodeMesh);
+                
+                columnsState[gx][gz] = {
+                    mesh: colMesh,
+                    gridX: gx,
+                    gridZ: gz,
+                    scaleY: 0.01,
+                    rebarGroup: rebarGroup
+                };
+                
+                nodeMesh.material = activeNodeMaterial;
+                
+                updateBeams();
+                updateSlabs();
+                updateMaterials();
+                playClickSound();
+            } else {
+                // Delete Column
+                const colData = columnsState[gx][gz];
+                modelGroup.remove(colData.mesh);
+                colData.mesh.geometry.dispose();
+                
+                if (colData.rebarGroup) {
+                    modelGroup.remove(colData.rebarGroup);
+                    colData.rebarGroup.children.forEach(child => child.geometry.dispose());
+                }
+                
+                columnsState[gx][gz] = null;
+                nodeMesh.material = inactiveNodeMaterial;
+                
+                updateBeams();
+                updateSlabs();
+                updateMaterials();
+                playClickSound();
+            }
+            
+            updateBIMStats();
+        }
+        
+        function updateBeams() {
+            const requiredBeams = [];
+            
+            // Find which connections should have a beam
+            for (let i = 0; i < GRID_SIZE; i++) {
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    if (columnsState[i][j] === null) continue;
+                    
+                    // Horizontal connection: scan right from i + 1 to GRID_SIZE - 1
+                    for (let next_i = i + 1; next_i < GRID_SIZE; next_i++) {
+                        if (columnsState[next_i][j] !== null) {
+                            requiredBeams.push({
+                                x1: i, z1: j,
+                                x2: next_i, z2: j,
+                                key: `${i},${j}-${next_i},${j}`,
+                                direction: 'X'
+                            });
+                            break; // Stop scanning further right
+                        }
+                    }
+                    
+                    // Vertical connection: scan down from j + 1 to GRID_SIZE - 1
+                    for (let next_j = j + 1; next_j < GRID_SIZE; next_j++) {
+                        if (columnsState[i][next_j] !== null) {
+                            requiredBeams.push({
+                                x1: i, z1: j,
+                                x2: i, z2: next_j,
+                                key: `${i},${j}-${i},${next_j}`,
+                                direction: 'Z'
+                            });
+                            break; // Stop scanning further down
+                        }
+                    }
+                }
+            }
+            
+            // Remove obsolete beams
+            for (let b = beamsList.length - 1; b >= 0; b--) {
+                const beam = beamsList[b];
+                const stillRequired = requiredBeams.some(rb => rb.key === beam.key);
+                
+                if (!stillRequired) {
+                    modelGroup.remove(beam.mesh);
+                    beam.mesh.geometry.dispose();
+                    if (beam.rebarGroup) {
+                        modelGroup.remove(beam.rebarGroup);
+                        beam.rebarGroup.children.forEach(child => child.geometry.dispose());
+                    }
+                    beamsList.splice(b, 1);
+                }
+            }
+            
+            // Add new beams
+            requiredBeams.forEach(rb => {
+                const exists = beamsList.some(b => b.key === rb.key);
+                if (!exists) {
+                    const halfGrid = (GRID_SIZE - 1) * GRID_SPACING / 2;
+                    const posAX = rb.x1 * GRID_SPACING - halfGrid;
+                    const posAZ = rb.z1 * GRID_SPACING - halfGrid;
+                    const posBX = rb.x2 * GRID_SPACING - halfGrid;
+                    const posBZ = rb.z2 * GRID_SPACING - halfGrid;
+                    
+                    const midX = (posAX + posBX) / 2;
+                    const midZ = (posAZ + posBZ) / 2;
+                    
+                    const L = rb.direction === 'X' ? Math.abs(posBX - posAX) : Math.abs(posBZ - posAZ);
+                    
+                    let beamGeom;
+                    if (rb.direction === 'X') {
+                        beamGeom = new THREE.BoxGeometry(L, BEAM_HEIGHT, BEAM_WIDTH);
+                    } else {
+                        beamGeom = new THREE.BoxGeometry(BEAM_WIDTH, BEAM_HEIGHT, L);
+                    }
+                    
+                    const mesh = new THREE.Mesh(beamGeom, beamMaterial);
+                    mesh.position.set(midX, COLUMN_HEIGHT - BEAM_HEIGHT / 2, midZ);
+                    mesh.scale.set(0.01, 1, 0.01); // Start thin
+                    
+                    modelGroup.add(mesh);
+                    
+                    // Create stress moment diagram curve under the beam
+                    const diagramGroup = createBeamStressDiagram(midX, midZ, rb.direction, L);
+                    mesh.add(diagramGroup); // Nested directly inside beam mesh
+                    
+                    // Create rebar group inside beam
+                    const rebarGroup = createBeamRebar(posAX, posAZ, posBX, posBZ, rb.direction);
+                    
+                    beamsList.push({
+                        mesh: mesh,
+                        key: rb.key,
+                        direction: rb.direction,
+                        scale: 0.01,
+                        rebarGroup: rebarGroup,
+                        diagramGroup: diagramGroup
+                    });
+                }
+            });
+        }
+
+        // Generatively manage slabs when cells are enclosed by 4 columns
+        function updateSlabs() {
+            const requiredSlabs = [];
+            
+            for (let i = 0; i < GRID_SIZE - 1; i++) {
+                for (let j = 0; j < GRID_SIZE - 1; j++) {
+                    if (columnsState[i][j] !== null &&
+                        columnsState[i + 1][j] !== null &&
+                        columnsState[i][j + 1] !== null &&
+                        columnsState[i + 1][j + 1] !== null) {
+                        
+                        requiredSlabs.push({
+                            x: i,
+                            z: j,
+                            key: `${i},${j}`
+                        });
+                    }
+                }
+            }
+            
+            // Remove obsolete slabs
+            for (let s = slabsList.length - 1; s >= 0; s--) {
+                const slab = slabsList[s];
+                const stillRequired = requiredSlabs.some(rs => rs.key === slab.key);
+                
+                if (!stillRequired) {
+                    modelGroup.remove(slab.mesh);
+                    slab.mesh.geometry.dispose();
+                    slabsList.splice(s, 1);
+                }
+            }
+            
+            // Add new slabs
+            requiredSlabs.forEach(rs => {
+                const exists = slabsList.some(s => s.key === rs.key);
+                if (!exists) {
+                    const halfGrid = (GRID_SIZE - 1) * GRID_SPACING / 2;
+                    const posAX = rs.x * GRID_SPACING - halfGrid;
+                    const posAZ = rs.z * GRID_SPACING - halfGrid;
+                    const posBX = (rs.x + 1) * GRID_SPACING - halfGrid;
+                    const posBZ = (rs.z + 1) * GRID_SPACING - halfGrid;
+                    
+                    const midX = (posAX + posBX) / 2;
+                    const midZ = (posAZ + posBZ) / 2;
+                    
+                    const mesh = new THREE.Mesh(slabGeometry, slabMaterial);
+                    mesh.position.set(midX, COLUMN_HEIGHT - 0.04, midZ); // Place flush on top
+                    mesh.scale.set(0.01, 1, 0.01); // Start flat
+                    
+                    modelGroup.add(mesh);
+                    
+                    slabsList.push({
+                        mesh: mesh,
+                        key: rs.key,
+                        scale: 0.01
+                    });
+                }
+            });
+        }
+        
+        function updateMaterials() {
+            const opacityVal = showXRay ? 0.0 : (showRebars ? 0.20 : 0.85);
+            const slabOpacityVal = showXRay ? 0.0 : (showRebars ? 0.15 : 0.6);
+            
+            // 1. Update opacity on primary shared materials
+            colMaterial.opacity = opacityVal;
+            colMaterial.transparent = true;
+            colMaterial.needsUpdate = true;
+            
+            beamMaterial.opacity = opacityVal;
+            beamMaterial.transparent = true;
+            beamMaterial.needsUpdate = true;
+            
+            slabMaterial.opacity = slabOpacityVal;
+            slabMaterial.transparent = true;
+            slabMaterial.needsUpdate = true;
+            
+            // 2. Update stress materials
+            colStressMats.forEach(mat => {
+                mat.opacity = opacityVal;
+                mat.transparent = true;
+                mat.needsUpdate = true;
+            });
+            beamStressMats.forEach(mat => {
+                mat.opacity = opacityVal;
+                mat.transparent = true;
+                mat.needsUpdate = true;
+            });
+            
+            // 3. Map materials to column meshes
+            for (let i = 0; i < GRID_SIZE; i++) {
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    const col = columnsState[i][j];
+                    if (col) {
+                        if (showStress) {
+                            let conn = 0;
+                            if (i + 1 < GRID_SIZE && columnsState[i + 1][j] !== null) conn++;
+                            if (i - 1 >= 0 && columnsState[i - 1][j] !== null) conn++;
+                            if (j + 1 < GRID_SIZE && columnsState[i][j + 1] !== null) conn++;
+                            if (j - 1 >= 0 && columnsState[i][j - 1] !== null) conn++;
+                            col.mesh.material = colStressMats[conn];
+                        } else {
+                            col.mesh.material = colMaterial;
+                        }
+                    }
+                }
+            }
+            
+            // 4. Map materials to beam meshes and toggle diagrams
+            beamsList.forEach(beam => {
+                if (showStress) {
+                    const coords = beam.key.split('-');
+                    const coordA = coords[0].split(',').map(Number);
+                    const coordB = coords[1].split(',').map(Number);
+                    
+                    let connA = 0;
+                    let i = coordA[0], j = coordA[1];
+                    if (i + 1 < GRID_SIZE && columnsState[i + 1][j] !== null) connA++;
+                    if (i - 1 >= 0 && columnsState[i - 1][j] !== null) connA++;
+                    if (j + 1 < GRID_SIZE && columnsState[i][j + 1] !== null) connA++;
+                    if (j - 1 >= 0 && columnsState[i][j - 1] !== null) connA++;
+                    
+                    let connB = 0;
+                    i = coordB[0]; j = coordB[1];
+                    if (i + 1 < GRID_SIZE && columnsState[i + 1][j] !== null) connB++;
+                    if (i - 1 >= 0 && columnsState[i - 1][j] !== null) connB++;
+                    if (j + 1 < GRID_SIZE && columnsState[i][j + 1] !== null) connB++;
+                    if (j - 1 >= 0 && columnsState[i][j - 1] !== null) connB++;
+                    
+                    const sum = connA + connB;
+                    let stressIndex = 0;
+                    if (sum === 2) stressIndex = 0;
+                    else if (sum <= 4) stressIndex = 1;
+                    else if (sum <= 6) stressIndex = 2;
+                    else stressIndex = 3;
+                    
+                    beam.mesh.material = beamStressMats[stressIndex];
+                } else {
+                    beam.mesh.material = beamMaterial;
+                }
+                
+                // Toggle stress moment line visibility
+                if (beam.diagramGroup) {
+                    beam.diagramGroup.visible = showStress;
+                }
+            });
+        }
+        
+        function setVisualMode(mode) {
+            if (mode === 'standard') {
+                showRebars = false;
+                showXRay = false;
+                showStress = false;
+            } else if (mode === 'rebar') {
+                showRebars = true;
+                showXRay = false;
+                showStress = false;
+            } else if (mode === 'xray') {
+                showRebars = true;
+                showXRay = true;
+                showStress = false;
+            } else if (mode === 'stress') {
+                showRebars = false;
+                showXRay = false;
+                showStress = true;
+            }
+            
+            // Toggle rebar groups visibility
+            for (let i = 0; i < GRID_SIZE; i++) {
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    const col = columnsState[i][j];
+                    if (col && col.rebarGroup) {
+                        col.rebarGroup.visible = showRebars;
+                    }
+                }
+            }
+            beamsList.forEach(beam => {
+                if (beam.rebarGroup) {
+                    beam.rebarGroup.visible = showRebars;
+                }
+            });
+            
+            updateMaterials();
+            playClickSound();
+        }
+        
+        function setCameraPreset(type) {
+            isAnimatingCamera = true;
+            controls.enabled = false; // Lock user input during animation
+            targetModelRotationY = 0; // Reset rotation so the grid isn't tilted
+            
+            // Turn autoRotate off for 2D views, and on for Iso
+            if (type === 'iso') {
+                autoRotate = true;
+            } else {
+                autoRotate = false;
+            }
+            
+            // Sync autoRotate UI button and indicator spin
+            const btn = document.getElementById('btn-toggle-rotate');
+            const indicator = document.getElementById('rotate-indicator');
+            if (btn) {
+                if (autoRotate) {
+                    btn.classList.add('active-rotate');
+                    btn.innerHTML = '<i class="fas fa-sync fa-spin"></i> Tự Xoay: BẬT';
+                    if (indicator) {
+                        indicator.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Kéo để xoay 3D';
+                    }
+                } else {
+                    btn.classList.remove('active-rotate');
+                    btn.innerHTML = '<i class="fas fa-sync"></i> Tự Xoay: TẮT';
+                    if (indicator) {
+                        indicator.innerHTML = '<i class="fas fa-sync-alt"></i> Kéo để xoay 3D';
+                    }
+                }
+            }
+
+
+            if (type === 'top') {
+                targetCameraPos.set(0.01, 9, 0); // Plan View (avoid gimbal lock)
+                targetControlsTarget.set(0, 1.2, 0);
+            } else if (type === 'bottom') {
+                targetCameraPos.set(0.01, -9, 0); // Bottom View (avoid gimbal lock)
+                targetControlsTarget.set(0, 1.2, 0);
+            } else if (type === 'front') {
+                targetCameraPos.set(0, 1.25, 9); // Front view
+                targetControlsTarget.set(0, 1.2, 0);
+            } else if (type === 'back') {
+                targetCameraPos.set(0, 1.25, -9); // Back view
+                targetControlsTarget.set(0, 1.2, 0);
+            } else if (type === 'left') {
+                targetCameraPos.set(-9, 1.25, 0); // Left view
+                targetControlsTarget.set(0, 1.2, 0);
+            } else if (type === 'right') {
+                targetCameraPos.set(9, 1.25, 0); // Right view
+                targetControlsTarget.set(0, 1.2, 0);
+            } else if (type === 'iso') {
+                targetCameraPos.set(5.5, 6, 7.5); // Default 3D
+                targetControlsTarget.set(0, 0.8, 0);
+            }
+            
+            playClickSound();
+        }
+        
+        function updateBIMStats() {
+            let colCount = 0;
+            for (let i = 0; i < GRID_SIZE; i++) {
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    if (columnsState[i][j] !== null) colCount++;
+                }
+            }
+            const beamCount = beamsList.length;
+            const slabCount = slabsList.length;
+            
+            document.getElementById('bim-columns').innerText = colCount;
+            document.getElementById('bim-beams').innerText = beamCount;
+            document.getElementById('bim-slabs').innerText = slabCount;
+        }
+        
+        function resetBIMPlayground() {
+            for (let i = 0; i < GRID_SIZE; i++) {
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    if (columnsState[i][j] !== null) {
+                        modelGroup.remove(columnsState[i][j].mesh);
+                        columnsState[i][j].mesh.geometry.dispose();
+                        if (columnsState[i][j].rebarGroup) {
+                            modelGroup.remove(columnsState[i][j].rebarGroup);
+                            columnsState[i][j].rebarGroup.children.forEach(child => child.geometry.dispose());
+                        }
+                        columnsState[i][j] = null;
+                    }
+                }
+            }
+            
+            beamsList.forEach(beam => {
+                modelGroup.remove(beam.mesh);
+                beam.mesh.geometry.dispose();
+                if (beam.rebarGroup) {
+                    modelGroup.remove(beam.rebarGroup);
+                    beam.rebarGroup.children.forEach(child => child.geometry.dispose());
+                }
+            });
+            beamsList = [];
+            
+            slabsList.forEach(slab => {
+                modelGroup.remove(slab.mesh);
+                slab.mesh.geometry.dispose();
+            });
+            slabsList = [];
+            
+            gridNodes.forEach(node => {
+                node.material = inactiveNodeMaterial;
+                node.scale.set(1, 1, 1);
+            });
+            
+            updateBIMStats();
+            updateMaterials();
+            playClickSound();
+        }
+        
+        function playClickSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.12);
+                
+                gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.13);
+            } catch(e) {}
+        }
+
+        function toggleAutoRotate() {
+            autoRotate = !autoRotate;
+            const btn = document.getElementById('btn-toggle-rotate');
+            const indicator = document.getElementById('rotate-indicator');
+            if (btn) {
+                if (autoRotate) {
+                    btn.classList.add('active-rotate');
+                    btn.innerHTML = '<i class="fas fa-sync fa-spin"></i> Tự Xoay: BẬT';
+                    if (indicator) {
+                        indicator.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Kéo để xoay 3D';
+                    }
+                } else {
+                    btn.classList.remove('active-rotate');
+                    btn.innerHTML = '<i class="fas fa-sync"></i> Tự Xoay: TẮT';
+                    if (indicator) {
+                        indicator.innerHTML = '<i class="fas fa-sync-alt"></i> Kéo để xoay 3D';
+                    }
+                }
+            }
+            playClickSound();
+        }
+
+        function updateGridSpacingLabel(val) {
+            const label = document.getElementById('label-grid-spacing');
+            if (label) {
+                label.innerText = parseFloat(val).toFixed(1) + 'm';
+            }
+        }
+
+        function updateGridConfig() {
+            const sizeInput = document.getElementById('input-grid-size');
+            const spacingInput = document.getElementById('input-grid-spacing');
+            if (!sizeInput || !spacingInput) return;
+
+            const newSize = parseInt(sizeInput.value);
+            const newSpacing = parseFloat(spacingInput.value);
+
+            // 1. Reset everything first using OLD GRID_SIZE
+            resetBIMPlayground();
+
+            // 2. Rebuild the grid config
+            GRID_SIZE = newSize;
+            GRID_SPACING = newSpacing;
+            
+            // 2. Remove old gridHelper
+            if (gridHelper) {
+                modelGroup.remove(gridHelper);
+                gridHelper.geometry.dispose();
+                gridHelper.material.dispose();
+            }
+            
+            // 3. Remove old nodes
+            gridNodes.forEach(node => {
+                modelGroup.remove(node);
+                node.geometry.dispose();
+                node.material.dispose();
+            });
+            gridNodes = [];
+            
+            // 4. Re-setup slab geometry
+            if (slabGeometry) {
+                slabGeometry.dispose();
+            }
+            slabGeometry = new THREE.BoxGeometry(GRID_SPACING - 0.05, 0.08, GRID_SPACING - 0.05);
+
+            // 5. Reinitialize columnsState to new size
+            columnsState = [];
+            for (let i = 0; i < GRID_SIZE; i++) {
+                columnsState[i] = [];
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    columnsState[i][j] = null;
+                }
+            }
+            
+            // 6. Create new gridHelper
+            gridHelper = new THREE.GridHelper(GRID_SPACING * (GRID_SIZE - 1), GRID_SIZE - 1, 0x475569, 0x334155);
+            modelGroup.add(gridHelper);
+            
+            // 7. Create new nodes
+            createGridNodes();
+
+            // 8. Update dashboard stats
+            updateBIMStats();
+            
+            playClickSound();
+        }
+        
+        function onWindowResize() {
+            if (!containerEl) return;
+            canvasWidth = containerEl.clientWidth;
+            canvasHeight = containerEl.clientHeight;
+            
+            camera.aspect = canvasWidth / canvasHeight;
+            camera.updateProjectionMatrix();
+            
+            renderer.setSize(canvasWidth, canvasHeight);
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            controls.update();
+            
+            // Animate columns (Scale Y)
+            for (let i = 0; i < GRID_SIZE; i++) {
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    const col = columnsState[i][j];
+                    if (col && col.scaleY < 1) {
+                        col.scaleY = Math.min(1.0, col.scaleY + 0.08);
+                        col.mesh.scale.set(1, col.scaleY, 1);
+                        if (col.rebarGroup) {
+                            col.rebarGroup.scale.set(1, col.scaleY, 1);
+                        }
+                    }
+                }
+            }
+            
+            // Animate beams (Scale width/length)
+            beamsList.forEach(beam => {
+                if (beam.scale < 1) {
+                    beam.scale = Math.min(1.0, beam.scale + 0.08);
+                    if (beam.direction === 'X') {
+                        beam.mesh.scale.set(beam.scale, 1, 1);
+                        if (beam.rebarGroup) {
+                            beam.rebarGroup.scale.set(beam.scale, 1, 1);
+                        }
+                    } else {
+                        beam.mesh.scale.set(1, 1, beam.scale);
+                        if (beam.rebarGroup) {
+                            beam.rebarGroup.scale.set(1, 1, beam.scale);
+                        }
+                    }
+                }
+            });
+            
+            // Animate Slabs (Scale horizontally)
+            slabsList.forEach(slab => {
+                if (slab.scale < 1) {
+                    slab.scale = Math.min(1.0, slab.scale + 0.08);
+                    slab.mesh.scale.set(slab.scale, 1, slab.scale);
+                }
+            });
+            
+            // Smooth Camera presets slide transition
+            if (isAnimatingCamera) {
+                camera.position.lerp(targetCameraPos, 0.08);
+                controls.target.lerp(targetControlsTarget, 0.08);
+                
+                // Lerp modelGroup rotation Y to targetModelRotationY
+                modelGroup.rotation.y = THREE.MathUtils.lerp(modelGroup.rotation.y, targetModelRotationY, 0.08);
+                
+                if (camera.position.distanceTo(targetCameraPos) < 0.03 && 
+                    controls.target.distanceTo(targetControlsTarget) < 0.03 &&
+                    Math.abs(modelGroup.rotation.y - targetModelRotationY) < 0.01) {
+                    camera.position.copy(targetCameraPos);
+                    controls.target.copy(targetControlsTarget);
+                    modelGroup.rotation.y = targetModelRotationY;
+                    isAnimatingCamera = false;
+                    controls.enabled = true; // Re-enable user input
+                }
+            }
+            
+            // Rotate scene group slowly when mouse is not active, not animating camera, and autoRotate is true
+            if (autoRotate && !isMouseDown && !isAnimatingCamera) {
+                modelGroup.rotation.y += 0.0018;
+            }
+
+            // Sync View Cube rotation with Three.js camera rotation
+            const viewCubeEl = document.getElementById('viewCube');
+            if (viewCubeEl) {
+                const offset = new THREE.Vector3().subVectors(camera.position, controls.target);
+                // Rotate offset by -modelGroup.rotation.y to account for model group rotation
+                offset.applyAxisAngle(new THREE.Vector3(0, 1, 0), -modelGroup.rotation.y);
+                const r = offset.length();
+                const yaw = Math.atan2(offset.x, offset.z);
+                const phi = Math.acos(Math.max(-1, Math.min(1, offset.y / r)));
+                const pitchDeg = 90 - (phi * 180 / Math.PI);
+                const yawDeg = yaw * 180 / Math.PI;
+                viewCubeEl.style.transform = `rotateX(${-pitchDeg}deg) rotateY(${-yawDeg}deg)`;
+            }
+            
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('load', initBIMPlayground);
     </script>
 </body>
 </html>
